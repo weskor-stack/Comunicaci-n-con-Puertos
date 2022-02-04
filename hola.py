@@ -1,3 +1,6 @@
-print("hola mundo")
+indice = True
 
-print("Hola de nuevo")
+while indice:
+    
+    import socket_echo_server
+    indice = False

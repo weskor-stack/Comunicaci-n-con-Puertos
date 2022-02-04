@@ -14,6 +14,7 @@ sock.bind(server_address)
 sock.listen(1)
 
 while True:
+    import serie_copy
     # Wait for a connection
     print('waiting for a connection')
     connection, client_address = sock.accept()
@@ -24,11 +25,11 @@ while True:
             data = connection.recv(16)
             print('received {!r}'.format(data))
             if data:
-                import serie_copy
-                message = serie_copy.datos.encode(encoding='utf-8')
                 print('sending data back to the client')   
+                message = serie_copy.datos.encode(encoding='utf-8')
                 connection.sendall(message)
-                break      
+                
+                    
             else:
                 print('no data from', client_address)
                 break
@@ -36,4 +37,4 @@ while True:
     finally:
         # Clean up the connection
         connection.close()
-        break
+        #break

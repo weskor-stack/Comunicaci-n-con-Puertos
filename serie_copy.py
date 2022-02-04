@@ -50,7 +50,7 @@ while 1:
                     try:
                         while 1: #Eta parte lee los datos del puerto
                             datos = str(puerto.readline()).replace("\\r","").replace("\\n","").replace("'","").replace("b","")
-                            #print("Los datos del puerto son: "+datos)
+                            print("Los datos del puerto son: "+datos)
                             #data_port = datos
                             if datos != "":
                                 data_port = datos
