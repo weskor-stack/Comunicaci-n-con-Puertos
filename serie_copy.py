@@ -46,7 +46,9 @@ for puertos in encontrados:
             print("port is opened! "+puerto_libre)
             
             try:
-                                
+                while 1: #Eta parte lee los datos del puerto
+                    datos = puerto.readline()
+                    print(datos)             
                 puerto.write('a'.encode())
                 time.sleep(0.5)
                 puerto.write('b'.encode())
