@@ -31,8 +31,7 @@ print(puertos_seriales())
 #Se lee la información y se manda un mensaje de cada puerto
 puerto_libre=0
 
-while 1:
-    for puertos in encontrados:
+for puertos in encontrados:
         puerto_libre = puertos
 
         puerto   = serial.Serial(port = str(puerto_libre),

@@ -23,6 +23,8 @@ while True:
         # Receive the data in small chunks and retransmit it
         while True:
             import serie_copy
+            data2 = serie_copy.datos
+            print ("data2 = "+data2.decode('utf8'))
             data = connection.recv(16)
             print('received {!r}'.format(data))
             if data:
