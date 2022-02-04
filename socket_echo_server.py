@@ -1,6 +1,6 @@
 import socket
 import sys
-import MyPySerial
+
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,6 +22,7 @@ while True:
 
         # Receive the data in small chunks and retransmit it
         while True:
+            import serie_copy
             data = connection.recv(16)
             print('received {!r}'.format(data))
             if data:
