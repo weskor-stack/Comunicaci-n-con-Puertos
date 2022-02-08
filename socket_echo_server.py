@@ -47,7 +47,7 @@ while True:
 
                     pass
 
-            #return encontrados
+            #mprime puertos encontrados
 
             print(encontrados)
             puerto_libre=0
@@ -66,13 +66,13 @@ while True:
                         
                         try:
                             if puerto.isOpen():
-                                print("port is opened! "+puerto_libre)
-                                #data_port = "hola"
+                                print("El puerto %s está abierto! "% puerto_libre)
+                                
                                 try:
-                                    while 1: #Eta parte lee los datos del puerto
+                                    while 1: #Esta parte lee los datos del puerto
                                         datos = str(puerto.readline()).replace("\\r","").replace("\\n","").replace("'","").replace("b","")
                                         print("Los datos del puerto "+puerto_libre+" son: "+datos)
-                                        #data_port = datos
+                                        #Checa si un puerto está mandando información
                                         if datos != "":
                                             data_port = datos
                                             message = "Los datos del puerto ".encode(encoding='utf-8')+puerto_libre.encode(encoding='utf-8')+" son: ".encode(encoding='utf-8')+data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
@@ -86,8 +86,8 @@ while True:
                                             break
                                     # Manda mensaje a cada puerto
                                     puerto.write(data_port.encode())
-                                    time.sleep(0.5)
-                                    puerto.write('b'.encode())
+                                    #time.sleep(0.5)
+                                    #puerto.write('b'.encode())
                                     puerto.close()
                                 
                                 except serial.SerialException:
