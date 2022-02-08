@@ -83,7 +83,6 @@ while True:
                                             message = "Los datos del puerto ".encode(encoding='utf-8')+puerto_libre.encode(encoding='utf-8')+" son: ".encode(encoding='utf-8')+data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
                                             #data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
                                             connection.sendall(message)
-                                            #print("los datos de data_port = "+data_port)
                                             break
                                         else:
                                             print("no se reciben los datos")
@@ -101,7 +100,6 @@ while True:
                                 except serial.portNotOpenError:
                                     print('Attempting to use a port that is not open')
                                     print('End of script')
-                            #print("los datos de data_prt = "+data_port)
                                     
 
                         except IOError: # if port is already opened, close it and open it again and print message 
@@ -110,18 +108,7 @@ while True:
                             print ("port was already open, was closed and opened again!") 
                 #break
 
-###############################################################################################################
-            #data = connection.recv(1024)
-            #print('recived {!r}'.format(data))
-            #if data:
-            #    print('sending data back to the client')   
-                #message = "Los datos del puerto ".encode(encoding='utf-8')+serie_copy.puerto_libre.encode(encoding='utf-8')+" son: ".encode(encoding='utf-8')+data.encode(encoding='utf-8')
-            #    connection.sendall(data_port)
-            #    break
-                    
-            #else:
-            #    print('no data from', client_address)
-            #    break
+################################################################################################################
 
     finally:
         # Clean up the connection
