@@ -1,3 +1,8 @@
+__author__ = "Edgar Bonilla Rivas"
+__copyright__ = "Copyright (C) 2022 Author Name"
+__license__ = "Public Domain"
+__version__ = "1.0"
+
 import socket
 import sys
 import serial
