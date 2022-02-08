@@ -10,7 +10,7 @@ import time
 import serial.tools.list_ports
 
 direccion_ip = socket.gethostbyname(socket.gethostname())
-#192.168.3.216
+#direccion_ip = "192.168.3.216"
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
