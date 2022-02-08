@@ -1,12 +1,16 @@
 import socket
 import sys
+import serial
+import time
+import serial.tools.list_ports
 
-
+direccion_ip = socket.gethostbyname(socket.gethostname())
+#192.168.3.216
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the port
-server_address = ('192.168.3.105', 10000)
+server_address = (direccion_ip, 10000)
 print('starting up on {} port {}'.format(*server_address))
 sock.bind(server_address)
 
@@ -14,7 +18,6 @@ sock.bind(server_address)
 sock.listen(1)
 
 while True:
-    import serie_copy
     # Wait for a connection
     print('waiting for a connection')
     connection, client_address = sock.accept()
@@ -22,17 +25,98 @@ while True:
         print('connection from', client_address)
         # Receive the data in small chunks and retransmit it
         while True:
-            data = connection.recv(16)
-            print('received {!r}'.format(data))
-            if data:
-                print('sending data back to the client')   
-                message = serie_copy.datos.encode(encoding='utf-8')
-                connection.sendall(message)
-                
+###############################################################################################################            
+            #lista que se utiliza para almacenar los puertos encontrados
+            encontrados = []
+
+        #Método para leer los puertos y almacenarlos en lista
+
+            ports = ['COM%s' % (i + 1) for i in range(256)]
+
+            for port in ports:
+
+                try:
+
+                    s = serial.Serial(port)
+                    #print (s)
+                    s.close()
+
+                    encontrados.append(port)
+
+                except (OSError, serial.SerialException):
+
+                    pass
+
+            #return encontrados
+
+            print(encontrados)
+            puerto_libre=0
+
+            while 1:
+                for puertos in encontrados:
+                        puerto_libre = puertos
+
+                        puerto   = serial.Serial(port = str(puerto_libre),
+                                                baudrate = 115200,
+                                                timeout= 3,
+                                                bytesize = serial.EIGHTBITS,
+                                                parity   = serial.PARITY_NONE,
+                                                stopbits = serial.STOPBITS_ONE)
+                        print("Es el puerto: "+puerto_libre)
+                        
+                        try:
+                            if puerto.isOpen():
+                                print("port is opened! "+puerto_libre)
+                                #data_port = "hola"
+                                try:
+                                    while 1: #Eta parte lee los datos del puerto
+                                        datos = str(puerto.readline()).replace("\\r","").replace("\\n","").replace("'","").replace("b","")
+                                        print("Los datos del puerto "+puerto_libre+" son: "+datos)
+                                        #data_port = datos
+                                        if datos != "":
+                                            data_port = datos
+                                            message = "Los datos del puerto ".encode(encoding='utf-8')+puerto_libre.encode(encoding='utf-8')+" son: ".encode(encoding='utf-8')+data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
+                                            #data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
+                                            connection.sendall(message)
+                                            #print("los datos de data_port = "+data_port)
+                                            break
+                                        else:
+                                            print("no se reciben los datos")
+                                            data_port=" "
+                                            break
+                                    # Manda mensaje a cada puerto
+                                    puerto.write(data_port.encode())
+                                    time.sleep(0.5)
+                                    puerto.write('b'.encode())
+                                    puerto.close()
+                                
+                                except serial.SerialException:
+                                    print('Port is not available') 
+                                
+                                except serial.portNotOpenError:
+                                    print('Attempting to use a port that is not open')
+                                    print('End of script')
+                            #print("los datos de data_prt = "+data_port)
+                                    
+
+                        except IOError: # if port is already opened, close it and open it again and print message 
+                            puerto.close() 
+                            puerto.open() 
+                            print ("port was already open, was closed and opened again!") 
+                #break
+
+###############################################################################################################
+            #data = connection.recv(1024)
+            #print('recived {!r}'.format(data))
+            #if data:
+            #    print('sending data back to the client')   
+                #message = "Los datos del puerto ".encode(encoding='utf-8')+serie_copy.puerto_libre.encode(encoding='utf-8')+" son: ".encode(encoding='utf-8')+data.encode(encoding='utf-8')
+            #    connection.sendall(data_port)
+            #    break
                     
-            else:
-                print('no data from', client_address)
-                break
+            #else:
+            #    print('no data from', client_address)
+            #    break
 
     finally:
         # Clean up the connection

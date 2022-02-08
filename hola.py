@@ -1,6 +1,5 @@
-indice = True
+import socket
+print(socket.gethostbyname(socket.gethostname()))
 
-while indice:
-    
+while True:
     import socket_echo_server
-    indice = False

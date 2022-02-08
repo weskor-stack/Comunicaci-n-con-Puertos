@@ -2,6 +2,7 @@ import serial
 import time
 import serial.tools.list_ports
 
+
 #lista que se utiliza para almacenar los puertos encontrados
 encontrados = []
 
@@ -50,9 +51,9 @@ while 1:
                     try:
                         while 1: #Eta parte lee los datos del puerto
                             datos = str(puerto.readline()).replace("\\r","").replace("\\n","").replace("'","").replace("b","")
-                            print("Los datos del puerto son: "+datos)
+                            print("Los datos del puerto "+puerto_libre+" son: "+datos)
                             #data_port = datos
-                            if datos != "":
+                            if datos != " ":
                                 data_port = datos
                                 #print("los datos de data_port = "+data_port)
                                 break
@@ -61,7 +62,7 @@ while 1:
                                 data_port=" "
                                 break
                         # Manda mensaje a cada puerto
-                        puerto.write('a'.encode())
+                        puerto.write(data_port.encode())
                         time.sleep(0.5)
                         puerto.write('b'.encode())
                         puerto.close()
@@ -79,4 +80,4 @@ while 1:
                 puerto.close() 
                 puerto.open() 
                 print ("port was already open, was closed and opened again!") 
-    break
+    #break
