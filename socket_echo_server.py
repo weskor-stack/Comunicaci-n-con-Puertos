@@ -63,7 +63,7 @@ while True:
 
                         puerto   = serial.Serial(port = str(puerto_libre),
                                                 baudrate = 115200,
-                                                timeout= 3,
+                                                timeout= 0.5,
                                                 bytesize = serial.EIGHTBITS,
                                                 parity   = serial.PARITY_NONE,
                                                 stopbits = serial.STOPBITS_ONE)
