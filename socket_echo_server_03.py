@@ -9,6 +9,8 @@ import serial
 import time
 import serial.tools.list_ports
 
+from datetime import datetime
+
 direccion_ip = socket.gethostbyname(socket.gethostname())
 #direccion_ip = "192.168.3.216"
 # Create a TCP/IP socket
@@ -22,6 +24,8 @@ sock.bind(server_address)
 # Listen for incoming connections
 sock.listen(1)
 
+#file = open('data_plc.txt','w')
+
 while True:
     # Wait for a connection
     print('waiting for a connection')
@@ -30,7 +34,6 @@ while True:
         print('connection from', client_address)
         # Receive the data in small chunks and retransmit it
         while True:
-            file = open('data_plc.txt','w')
 ###############################################################################################################            
             #lista que se utiliza para almacenar los puertos encontrados
             encontrados = []
@@ -64,27 +67,29 @@ while True:
 
                         puerto   = serial.Serial(port = str(puerto_libre),
                                                 baudrate = 115200,
-                                                timeout= 0.5,
+                                                timeout= 3,
                                                 bytesize = serial.EIGHTBITS,
                                                 parity   = serial.PARITY_NONE,
                                                 stopbits = serial.STOPBITS_ONE)
                         print("Es el puerto: "+puerto_libre)
                         
                         try:
+                            file = open('data_plc.txt','a')
+                            now = datetime.now()
                             if puerto.isOpen():
                                 print("El puerto %s está abierto! "% puerto_libre)
-                                
                                 try:
                                     while 1: #Esta parte lee los datos del puerto
                                         datos = str(puerto.readline()).replace("\\r","").replace("\\n","").replace("'","").replace("b","")
+                                        print(now)
                                         print("Los datos del puerto "+puerto_libre+" son: "+datos)
+                                        file.write(str(now)+"\n"+"Los datos del puerto "+puerto_libre+" son: "+datos+"\n"+"\n")
                                         #Checa si un puerto está mandando información
                                         if datos != "":
                                             data_port = datos
                                             message = "Los datos del puerto ".encode(encoding='utf-8')+puerto_libre.encode(encoding='utf-8')+" son: ".encode(encoding='utf-8')+data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
                                             #data_port.encode(encoding='utf-8')+'\n'.encode(encoding='utf-8')
                                             connection.sendall(message)
-                                            file.write(message)
                                             break
                                         else:
                                             print("no se reciben los datos")
@@ -94,6 +99,7 @@ while True:
                                     puerto.write(data_port.encode())
                                     #time.sleep(0.5)
                                     #puerto.write('b'.encode())
+                                    #file.write(now+"\n"+"Los datos del puerto "+puerto_libre+" son: "+datos+"\n")
                                     puerto.close()
                                 
                                 except serial.SerialException:
