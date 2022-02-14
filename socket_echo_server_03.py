@@ -11,8 +11,8 @@ import serial.tools.list_ports
 
 from datetime import datetime
 
-direccion_ip = socket.gethostbyname(socket.gethostname())
-#direccion_ip = "192.168.3.216"
+#direccion_ip = socket.gethostbyname(socket.gethostname())
+direccion_ip = "192.168.3.216"
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -67,14 +67,14 @@ while True:
 
                         puerto   = serial.Serial(port = str(puerto_libre),
                                                 baudrate = 115200,
-                                                timeout= 3,
+                                                timeout= 0.5,
                                                 bytesize = serial.EIGHTBITS,
                                                 parity   = serial.PARITY_NONE,
                                                 stopbits = serial.STOPBITS_ONE)
                         print("Es el puerto: "+puerto_libre)
                         
                         try:
-                            file = open('data_plc.txt','a')
+                            file = open('C:\DTA\data\data_plc.txt','a')
                             now = datetime.now()
                             if puerto.isOpen():
                                 print("El puerto %s está abierto! "% puerto_libre)

@@ -9,8 +9,8 @@ import serial
 import time
 import serial.tools.list_ports
 
-direccion_ip = socket.gethostbyname(socket.gethostname())
-#direccion_ip = "192.168.3.216"
+#direccion_ip = socket.gethostbyname(socket.gethostname())
+direccion_ip = "192.168.3.216"
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -71,7 +71,7 @@ while True:
 
                             puerto   = serial.Serial(port = str(puerto_libre),
                                                     baudrate = 115200,
-                                                    timeout= 3,
+                                                    timeout= 0.5,
                                                     bytesize = serial.EIGHTBITS,
                                                     parity   = serial.PARITY_NONE,
                                                     stopbits = serial.STOPBITS_ONE)
